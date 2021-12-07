@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  first_name String
+  last_name  String
+  email      String   @unique
+  password   String
+  role       Role     @default(USER)
+  contact    Contact?
+}
+
+model Contact {
+  id       Int    @id @default(autoincrement())
+  postcode String
+  street   String
+  phone    Int
+  taxiId   Int?   @unique
+  taxi     Taxi?  @relation(fields: [taxiId], references: [id])
+  userId   Int?    @unique
+  user     User?   @relation(fields: [userId], references: [id])
+}
+
+model Taxi {
+  id            Int      @id @default(autoincrement())
+  business_name String
+  contact       Contact?
+}
+
+model Trip {
+  id               Int    @id @default(autoincrement())
+  userId           Int
+  driverId         Int
+  pickup_postcode  String
+  pickup_time      DateTime
+  dropoff_postcode String
+  status           String
+}
+
+model Driver {
+  id           Int    @id @default(autoincrement())
+  name         String
+  car_category String
+  taxid        Int
+}
