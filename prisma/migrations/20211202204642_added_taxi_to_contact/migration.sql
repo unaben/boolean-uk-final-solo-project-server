@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Contact" ALTER COLUMN "taxiId" DROP DEFAULT,
+ALTER COLUMN "userId" DROP DEFAULT;
