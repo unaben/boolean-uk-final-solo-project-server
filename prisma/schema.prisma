@@ -24,29 +24,33 @@ model User {
   password   String
   role       Role     @default(USER)
   contact    Contact?
+  trip       Trip[]
 }
 
 model Contact {
   id       Int    @id @default(autoincrement())
   postcode String
   street   String
-  phone    Int
+  phone    String
   taxiId   Int?   @unique
   taxi     Taxi?  @relation(fields: [taxiId], references: [id])
-  userId   Int?    @unique
-  user     User?   @relation(fields: [userId], references: [id])
+  userId   Int?   @unique
+  user     User?  @relation(fields: [userId], references: [id])
 }
 
 model Taxi {
   id            Int      @id @default(autoincrement())
   business_name String
   contact       Contact?
+  driver        Driver[]
 }
 
 model Trip {
-  id               Int    @id @default(autoincrement())
-  userId           Int
-  driverId         Int
+  id               Int      @id @default(autoincrement())
+  userId           Int      @unique
+  user             User     @relation(fields: [userId], references: [id])
+  driverId         Int?     @unique
+  driver           Driver?  @relation(fields: [driverId], references: [id])
   pickup_postcode  String
   pickup_time      DateTime
   dropoff_postcode String
@@ -57,5 +61,7 @@ model Driver {
   id           Int    @id @default(autoincrement())
   name         String
   car_category String
-  taxid        Int
+  taxiId       Int?
+  taxi         Taxi?  @relation(fields: [taxiId], references: [id])
+  trip         Trip[]
 }

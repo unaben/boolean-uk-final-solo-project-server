@@ -176,3 +176,33 @@ npx prisma studio
 - Add a JWT_SECRET to your .env file (and restart the server)... import the environment variable to use with jwt methods
 - Use the jwt.sign method to create a token, that contains user info as a payload, and send it in your responses (replacing the user object we've been working with)
 - Store the token in state and localStorage
+Deploying your backend with Heroku, step by step
+
+Heroku Dashboard Config
+1. Go to https://dashboard.heroku.com/ and log in
+2. Click New -> Create new app in the top right
+3. Enter a name (this is what will be your production app URL: e.g. entering boolean-checkers will result in a URL of https://boolean-checkers.herokuapp.com
+4. Set Region to Europe
+5. Click Create app
+6. In the Deployment method section, click Connect to GitHub
+7. Enter the name of the repository and then click Search
+8. The repo will show up, click Connect
+9. In the Automatic deploys section, make sure the branch is set to main and click Enable Automatic Deploys
+10. Scroll all the way up and click Settings
+11. In the Config Vars section, click Reveal Config Vars and enter your environment variable key & value for your database - you don't need any other variables, just the db
+12. In the Buildpacks section, click Add buildpack and choose nodejs
+
+Code config
+1. Add a new script to your package.json file called something like prod-start, with a value of node src/index.js (if your app's entry point is called app.js, use that in place of index.js)
+2. Important: make sure the prisma dependency is in the "dependencies" object, NOT "devDependencies" - if it is, move it into dependencies
+3. Create a new file in the root of your project called Procfile
+4. In that Procfile, add the following (replace prod-start for whatever you chose as your new script name in package.json):
+release: npx prisma migrate deploy
+web: npm run prod-start
+
+5. Git add, commit, push
+6. Go back to the app you created in Heroku and make sure you're in the Overview tab; wait for a "Build in progress..." message
+7. Click "View build progress" and follow it until it says "Done"
+8. Click More in the top right and then View logs
+9. Wait for State changed from starting to up to appear in the log, then click Open app in the top right
+@here is the recording of the session: https://drive.google.com/file/d/1Ynyf0tL5QSy_dS3RhJsJXCxow7_jPFTq/view?usp=sharing
