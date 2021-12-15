@@ -1,18 +1,18 @@
 const { Router } = require("express");
-
 const {
   getAll,
   getOneById,
   createOne,
   updateOneById,
-  deleteOneTaxi,
+  deleteOneTrip,
 } = require("./controller");
 
 const router = Router();
 
 router.get("/", getAll);
-router.patch("/:id", updateOneById);
 router.get("/:id", getOneById);
 router.post("/", createOne);
-router.delete("/:id", deleteOneTaxi);
+router.patch("/:id", updateOneById);
+router.delete("/:id", deleteOneTrip);
+
 module.exports = router;

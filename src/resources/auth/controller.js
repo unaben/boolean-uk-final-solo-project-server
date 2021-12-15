@@ -35,7 +35,7 @@ const SignUp = async (req, res) => {
           create: {
             street: req.body.street,
             postcode: req.body.postcode,
-            phone: parseInt(req.body.phone),
+            phone: req.body.phone,
           },
         },
       },

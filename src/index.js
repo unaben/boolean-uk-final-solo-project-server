@@ -11,7 +11,7 @@ const userRouter = require("./resources/users/router");
 const contactRouter = require("./resources/contacts/router");
 const taxiRouter = require("./resources/taxis/router");
 const driverRouter = require("./resources/drivers/router");
-
+const tripRouter = require("./resources/trips/router");
 
 /* SETUP MIDDLEWARE */
 
@@ -22,15 +22,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-/* SETUP ROUTES */
 
 app.use("/", authRouter);
-
-/* For regular users only */
 app.use("/contacts", contactRouter);
 app.use("/users", userRouter);
 app.use("/taxis", taxiRouter);
 app.use("/drivers", driverRouter);
+app.use("/trips", tripRouter);
 
 /* For admin users only */
 
