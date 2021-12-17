@@ -44,6 +44,9 @@ const createOne = async (req, res) => {
           },
         },
       },
+      include: {
+        contact: true,
+      },
     });
     res.json({ data: newTaxi });
   } catch (error) {
