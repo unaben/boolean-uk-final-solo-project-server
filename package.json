@@ -4,7 +4,7 @@
   "description": "Upstream for final solo projects",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "node src/index.js",
     "seed": "nodemon src/utils/seed.js",
     "prod-start": "node src/index.js"
   },
