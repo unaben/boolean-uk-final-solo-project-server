@@ -32,7 +32,7 @@ const getOneById = async (req, res) => {
 
 const createOne = async (req, res) => {
   const { pickup_postcode, pickup_time, dropoff_postcode, status } = req.body;
-  console.log({ body: req.body });
+  console.log({ body: req.body, user: req.user });
   const tripToCreate = {
     pickup_postcode,
     pickup_time,
@@ -45,7 +45,7 @@ const createOne = async (req, res) => {
         ...tripToCreate,
         pickup_time: new Date(pickup_time),
         user: {
-          connect: { id: req.body.userId },
+          connect: { id: req.user.id },
         },
         driver: {
           connect: { id: req.body.driverId },
@@ -85,7 +85,7 @@ const deleteOneTrip = async (req, res) => {
         id: parseInt(req.params.id),
       },
     });
-    res.json({data: deleteTrips });
+    res.json({ data: deleteTrips });
   } catch (error) {
     console.error({ error: error.message });
 

@@ -105,7 +105,36 @@ const LogIn = async (req, res) => {
     res.status(500).json({ error });
   }
 };
+
+function protect(req, res, next) {
+  console.log("INSIDE MIDDLEWARE: ", { headers: req.headers })
+
+  const token = req.headers.authorization
+
+  jwt.verify(token, process.env.JWT_SECRET, async (err, payload) => {
+    if (err) {
+      res.status(401).json({ error: "Not Authorized" })
+    }
+
+    console.log({ payload })
+
+    // Find the authenticated user in our DB
+    const user = await prisma.user.findUnique({
+      where: {
+        id: payload.id,
+      },
+    })
+
+    console.log({ userInMiddleware: user })
+
+    // Attach to request object in order to use in controllers
+    req.user = user
+
+    next()
+  })
+}
 module.exports = {
   SignUp,
   LogIn,
+  protect
 };

@@ -32,9 +32,9 @@ model Contact {
   postcode String
   street   String
   phone    String
-  taxiId   Int?   @unique
+  taxiId   Int?  
   taxi     Taxi?  @relation(fields: [taxiId], references: [id])
-  userId   Int?   @unique
+  userId   Int?  
   user     User?  @relation(fields: [userId], references: [id])
 }
 
@@ -47,9 +47,9 @@ model Taxi {
 
 model Trip {
   id               Int      @id @default(autoincrement())
-  userId           Int      @unique
+  userId           Int
   user             User     @relation(fields: [userId], references: [id])
-  driverId         Int?     @unique
+  driverId         Int?
   driver           Driver?  @relation(fields: [driverId], references: [id])
   pickup_postcode  String
   pickup_time      DateTime
